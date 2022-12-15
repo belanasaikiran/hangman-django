@@ -31,7 +31,7 @@ def __main__():
 
     while True:
 
-        if (game_word_len < 4):
+        if(game_word_len < 4):
             chances = 3
             print("\nYou have", chances, "remaining chances left")
         else:
@@ -41,20 +41,18 @@ def __main__():
             print("Sorry, You ran out of chances")
             break
 
+
         if "_" in Fill_Letters:
             while True:
                 option = input("Guess a letter: ").upper()
 
-                if (len(option) == 1) and (option in alphabets):
+                if len(option) == 1:
                     # print(option)
                     guessedLetters.append(option)
                     print("Guessed Letters: ", guessedLetters)
-                    alphabets.remove(option)
-                    print(alphabets)
                     break
                 else:
-                    print("Please choose a letter from the available alphabets")
-                    print(alphabets)
+                    print('Enter a single letter only')
                     continue
 
             if option in game_word:
@@ -63,13 +61,15 @@ def __main__():
                 print(option, "doesn't exist in word, try a different one \n")
                 chances = chances - 1
 
-            # if (option in alphabets):
-            #     # print(option, "present in alphabets")
-            #     alphabets.remove(option)
-            #     print(alphabets)
-            # else:
-            #     print("Please choose a letter from the available alphabets")
-            #     print(alphabets)
+
+
+            if (option in alphabets):
+                    # print(option, "present in alphabets")
+                    alphabets.remove(option)
+                    print(alphabets)
+            else:
+                print("Please choose a letter from the available alphabets")
+                print(alphabets)
 
             for i in range(game_word_len):
                 if (option == game_word[i]):
