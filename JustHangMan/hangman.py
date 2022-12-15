@@ -38,7 +38,8 @@ def __main__():
             print("\nYou have", chances, "remaining chances left")
 
         if chances == 0:
-            print("Sorry, You ran out of chances")
+            print("Sorry 🥺, You ran out of chances")
+            print("The Word was", game_word)
             break
 
         if "_" in Fill_Letters:
@@ -60,16 +61,9 @@ def __main__():
             if option in game_word:
                 print("That's great," + option + " exists\n")
             else:
-                print(option, "doesn't exist in word, try a different one \n")
+                print("Wrong 😐 ,", option, "doesn't exist in word. \n Try a different one \n")
                 chances = chances - 1
 
-            # if (option in alphabets):
-            #     # print(option, "present in alphabets")
-            #     alphabets.remove(option)
-            #     print(alphabets)
-            # else:
-            #     print("Please choose a letter from the available alphabets")
-            #     print(alphabets)
 
             for i in range(game_word_len):
                 if (option == game_word[i]):
