@@ -69,6 +69,35 @@ def __main__():
 
             print("\n", Fill_Letters)
             
+            # for i in range(game_word_len):
+            #     if (game_word[i] == option):
+            #         if option in guessedLetters:
+            #             print("You have already guessed letter", option)
+            #         else:
+            #             alphabets.remove(option)
+            #             print(alphabets)
+            #             findLetter = game_word.find(option)
+
+            # if option in game_word:
+            #     # print(option, " exists")
+            #     findLetter = game_word.find(option) # for finding index value
+            #     findLetterCount = game_word.count(option) # check no. of times the letter is repeated in word
+                
+            #     print("count", findLetterCount)
+
+                # if (option in alphabets):
+                #         print(option, "present in alphabets")
+                #         alphabets.remove(option)
+                #         print(alphabets)
+
+                # print("found letter at index", findLetter)
+
+                # Fill_Letters = Fill_Letters[:findLetter] + option + Fill_Letters[findLetter + 1:]
+                # # Fill_Letters
+                # print(Fill_Letters)
+
+            # else:
+            #     print(option, "doesn't exist in word, try a different one")
             continue
         else:
             print("You Win! 🥳 🎉")
