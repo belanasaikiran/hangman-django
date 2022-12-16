@@ -1,10 +1,6 @@
 import random
 words = ["Hangman", "Python", "Audacix", "Bottle", "Pen"]
 
-# The player should be allowed to guess incorrectly 1/2 the number of characters in the
-# word. So for example if the selected word in "Pen", the player can make 2 incorrect
-# guesses before loosing the game.
-
 alphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
              'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 guessedLetters = []
@@ -31,7 +27,7 @@ def __main__():
 
     while True:
 
-        if (game_word_len < 4):
+        if (game_word_len < 5):
             chances = 3
             print("\nYou have", chances, "remaining chances left")
         else:
