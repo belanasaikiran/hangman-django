@@ -48,104 +48,64 @@ def get_FillLetters(LatestGameWord, request, alphabet):
         if "_" in Fill_Letters:
             LatestFillWord = Game.objects.last().fill_Letters
             print("YAY")
-        # return LatestFillWord
+        return LatestFillWord
 
 #  ##### DJANGO ####
-
-
 def game(request):
 
     if request.method == 'GET':
-
-        # Game Status
-        status = "Game in progress"
-
         # get random word
         word = get_word()
         print("Word is", word)
         # save random word to DB
-        gameWord = Game(game_word=word)
-        gameWord.save()
-        LatestGameWord = Game.objects.last().game_word
+        # gameWord = Game(game_word=word)
+        # gameWord.save()
+        noOfChances = Game(chances=chances)
         chances = get_chances(LatestGameWord, request)
-        # Fill Letters
-        Fill_Letters = len(LatestGameWord) * "_"
-        print(Fill_Letters)
-        WordsAndChances = Game(
-            game_word=word, chances=chances, fill_Letters=Fill_Letters)
+        WordsAndChances = Game(game_word=word, chances=chances)
         WordsAndChances.save()
-        print("GameWord, FillLetters & Chances are:", WordsAndChances.game_word,
-              WordsAndChances.fill_Letters,  WordsAndChances.chances)
+        LatestGameWord = Game.objects.last().game_word
+        
+        print(LatestGameWord)
+        print("GameWord & last Word is:", WordsAndChances)
 
+        # check for no. of chances
+        # noOfChances.save()
         ChancesLeft = Game.objects.last().chances
         print("Chances Left:",  ChancesLeft)
-        ######
+
+
 
         # Generate empty blank spaces
-        # alphabet = ""
-        # # Fill_Letters = get_FillLetters(LatestGameWord, request, alphabet)
-        # # print(Fill_Letters)
-        # print("\nAvailable Letters: \n", alphabets)
-        return render(request, 'Hangman.html', {'chancesLeft': ChancesLeft, 'MissionWord': Fill_Letters, 'status': status})
+        alphabet = ""
+        Fill_Letters = get_FillLetters(LatestGameWord, request, alphabet)
+        # print(Fill_Letters)
+        print("\nAvailable Letters: \n", alphabets)
+        # render
+        return render(request, 'Hangman.html', {'chancesLeft': ChancesLeft, 'MissionWord': Fill_Letters})
 
     # game_word = game_word
     # print(game_word)
 
+
     if request.method == 'POST':
-        status = "Game in progress"
         alphabet = request.POST['letter']
         print("alphabet pressed:", alphabet)
         LatestGameWord = Game.objects.last().game_word
         ChancesLeft = Game.objects.last().chances
         # print("Chances Left:",  ChancesLeft)
-        print("Chances Left:", ChancesLeft)
-
-        #  Filling Spaces
-        LatestFillWord = Game.objects.last().fill_Letters
-        print(LatestFillWord)
-
+        print("Data from model:",ChancesLeft)
 
         if alphabet in LatestGameWord:
             print("The Letter exists in word")
-
-
-            if "_" in LatestFillWord:
-                for i in range(len(LatestGameWord)):
-                    if (alphabet == LatestGameWord[i]):
-                        Fill_list = list(LatestFillWord)
-                        Fill_list[i] = alphabet
-                        LatestFillWord = ''.join(Fill_list)
-                        # print(LatestFillWord)
-                        Game.objects.update(fill_Letters=LatestFillWord)
-                        status = "That's great!, Now try the remaining ones"
-
-                Fill_Letters = get_FillLetters(LatestGameWord, request, alphabet)
+            Fill_Letters = get_FillLetters(LatestGameWord, request, alphabet)
         else:
             print("Wrong 😐, Try a different one \n")
-
             # ChancesLeft = ChancesLeft - 1
-            ChancesLeft = Game.objects.last().chances
-
-            # verify chances
-            if ChancesLeft == 0:
-                ChancesLeft = 0
-                Game.objects.update(chances=ChancesLeft)
-                print("Chances Left:",  ChancesLeft)
-                status = 'You have Lost the Game,  Click *New Game* to play again'
-
-            else:
-                ChancesLeft = ChancesLeft - 1
-                Game.objects.update(chances=ChancesLeft)
-                print("Chances Left:",  ChancesLeft)
-                status = "Wrong 😐 Try a different one "
+            print("Chances Left:",  ChancesLeft)
 
 
-        if Game.objects.last().game_word == Game.objects.last().fill_Letters:
-            print(Game.objects.last().game_word, Game.objects.last().fill_Letters)
-            status = "Congrats, You Win! 🥳 🎉"
-            print(status)
-
-        return render(request, 'Hangman.html', {'chancesLeft': ChancesLeft, 'MissionWord': LatestFillWord, 'status': status})
+        return render(request, 'Hangman.html', {'chancesLeft': ChancesLeft, 'MissionWord': 'word'})
 
 
 def index(request):

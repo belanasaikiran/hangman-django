@@ -8,3 +8,4 @@ class Game(models.Model):
     status = models.CharField(max_length=10, default="In Progress")
     guessedLetters = models.CharField(max_length=20, default="")
     fill_Letters = models.CharField(max_length=20, default="")
+    chances = models.IntegerField(blank=True, null=True)

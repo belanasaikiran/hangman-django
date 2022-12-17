@@ -7,24 +7,54 @@
 
     <!-- other plugins for tailwind css -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
-    
+    <script>
+        tailwind.config = {
+          theme: {
+               screens: {
+                sm: '480px',
+                md: '768px',
+                lg: '1000px',
+                xl: '1540px',
+                '2xl': '2000px',
+    },
+            extend: {
+              colors: {
+                clifford: '#da373d',
+              }
+            }
+          }
+        }
+
+      </script>
 
 </head>
 
-<body class="text-center px-40 m-0 bg-gray-800 bg-cover bgImage">
+<body class="text-center 2xl:px-40 px-32 m-0 bg-gray-800 bg-cover bgImage">
 
     <h1 class="text-cyan-900 text-5xl font-bold text-center py-8 text-gray-50"> Welcome to <span
             class=" bg-yellow-400 text-cyan-800 px-2 rounded-sm">Hang<span class="text-gray-50 ">man</span></span> Game
     </h1>
 
+    {% comment %} new game , go home {% endcomment %}
+    <div class="flex justify-center">
+        <div class=" py-4">
+            <a href="/" class="text-gray-50 text-lg m-4 hover:bg-yellow-400 hover:text-cyan-900 p-2 rounded-md transition-all duration-500 hover:font-semibold">
+                < Go Home </a>
+            </div> 
+            <div class=" py-4">
+            <a href="/hangman" class="text-gray-50 text-lg m-4 hover:bg-yellow-400 hover:text-cyan-900 p-2 rounded-md transition-all duration-500 hover:font-semibold">
+                New Game </a>
+            </div>
 
+
+</div>
     <div
-        class=" grid  grid-cols-2 justify-center justify-items-center   bg-gradient-to-r from-yellow-500/70 to-cyan-500/70 shadow-2xl rounded-xl px-4 py-8 backdrop-blur-lg min-h-[75vh]">
+        class=" grid  grid-cols-2 justify-center gap-4 justify-items-center   bg-gradient-to-r from-yellow-500/70 to-cyan-500/70 shadow-2xl rounded-xl px-4 py-8 backdrop-blur-lg min-h-[75vh] transition-all duration-500 ease-in-out">
 
-        <div class=" text-base text-left my-4 mr-8 text-cyan-900  rounded-md p-4 flex flex-col">
+        <div class=" text-base text-left my-4 text-cyan-900  rounded-md p-4 flex flex-col">
             <div class=" rounded-lg bg-gray-50 p-4">
-                <h3 class="font-semibold text-xl">How to play ?</h3>
-                <ul class="font-normal">
+                <h3 class="font-semibold text-xl  2xl:text-3xl">How to play ?</h3>
+                <ul class="font-normal text-xl 2xl:text-2xl py-2">
                     <li>1. Fill in the letter everywhere it appears on the appropriate dash (or dashes) each time you
                         guess correctly.</li>
                     <li>2. Guess one letter at a time to reveal the secret word. </li>
@@ -33,22 +63,22 @@
             </div>
 
             <div class="p-4 bg-gray-50 rounded-lg mt-2 h-full ">
-                <h1 class="text-cyan-800 font-semibold text-xl">Guessed Letters: </h1>
+                <h1 class="text-cyan-800 font-semibold text-xl 2xl:text-3xl">Guessed Letters: </h1>
                 <p>{{guessLetters}}</p>
             </div>
         </div>
         <div class="flex flex-col justify-items-center justify-around ">
 
             <div>
-                <p class="text-5xl py-4 font-bold text-yellow-400  ">Guess the word:
-                    <span class="tracking-widest text-cyan-900 "><span class=" rounded-lg ml-2 px-4">{{MissionWord}}</span>
-                    </span>
-                </p>
+                <div class="text-5xl py-4 font-bold text-yellow-400 2xl:text-7xl">
+                <p class="my-4">Guess the word:</p>
+                    <span class="tracking-widest text-cyan-900 my-4 rounded-lg ml-2 px-4 ">{{MissionWord}}</span>
+            </div>
 
-                <p class="text-gray-50 text-2xl py-8">You have <span
-                        class="text-yellow-400 font-bold shadow-xl">{{chancesLeft}}</span>
+                <p class="text-gray-50 text-2xl 2xl:text-4xl py-8">You have <span
+                        class="text-yellow-400 font-bold shadow-xl px-4">{{chancesLeft}}</span>
                     remaining chances left</p>
-                <p></p>
+                <p class="my-2">{{status}}</p>
 
             </div>
 
@@ -57,82 +87,82 @@
                 action="/hangman/guess" method="POST">
                 {% comment %} <input type="hidden" name="alphabet" value="{{ game.alphabet }}" /> {% endcomment %}
                 <button
-                    class="bg-cyan-800 p-2 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+                    class="bg-cyan-800  p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
                     type="submit" name="letter" value="A">A</button>
                 <button
-                    class="bg-cyan-800 p-2 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
                     type="submit" name="letter" value="B">B</button>
                 <button
-                    class="bg-cyan-800 p-2 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
                     type="submit" name="letter" value="C">C</button>
                 <button
-                    class="bg-cyan-800 p-2 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
                     type="submit" name="letter" value="D">D</button>
                 <button
-                    class="bg-cyan-800 p-2 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
                     type="submit" name="letter" value="E">E</button>
                 <button
-                    class="bg-cyan-800 p-2 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
                     type="submit" name="letter" value="F">F</button>
                 <button
-                    class="bg-cyan-800 p-2 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
                     type="submit" name="letter" value="G">G</button>
                 <button
-                    class="bg-cyan-800 p-2 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
                     type="submit" name="letter" value="H">H</button>
                 <button
-                    class="bg-cyan-800 p-2 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
                     type="submit" name="letter" value="I">I</button>
                 <button
-                    class="bg-cyan-800 p-2 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
                     type="submit" name="letter" value="J">J</button>
                 <button
-                    class="bg-cyan-800 p-2 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
                     type="submit" name="letter" value="K">K</button>
                 <button
-                    class="bg-cyan-800 p-2 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
                     type="submit" name="letter" value="L">L</button>
                 <button
-                    class="bg-cyan-800 p-2 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
                     type="submit" name="letter" value="M">M</button>
                 <button
-                    class="bg-cyan-800 p-2 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
                     type="submit" name="letter" value="N">N</button>
                 <button
-                    class="bg-cyan-800 p-2 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
                     type="submit" name="letter" value="O">O</button>
                 <button
-                    class="bg-cyan-800 p-2 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
                     type="submit" name="letter" value="P">P</button>
                 <button
-                    class="bg-cyan-800 p-2 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
                     type="submit" name="letter" value="Q">Q</button>
                 <button
-                    class="bg-cyan-800 p-2 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
                     type="submit" name="letter" value="R">R</button>
                 <button
-                    class="bg-cyan-800 p-2 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
                     type="submit" name="letter" value="S">S</button>
                 <button
-                    class="bg-cyan-800 p-2 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
                     type="submit" name="letter" value="T">T</button>
                 <button
-                    class="bg-cyan-800 p-2 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
                     type="submit" name="letter" value="U">U</button>
                 <button
-                    class="bg-cyan-800 p-2 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
                     type="submit" name="letter" value="V">V</button>
                 <button
-                    class="bg-cyan-800 p-2 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
                     type="submit" name="letter" value="W">W</button>
                 <button
-                    class="bg-cyan-800 p-2 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
                     type="submit" name="letter" value="X">X</button>
                 <button
-                    class="bg-cyan-800 p-2 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
                     type="submit" name="letter" value="Y">Y</button>
                 <button
-                    class="bg-cyan-800 p-2 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
                     type="submit" name="letter" value="Z">Z</button>
 
 
@@ -146,18 +176,7 @@
     </div>
 
 
-    {% comment %} new game , go home {% endcomment %}
-    <div class="flex justify-center">
-        <div class=" py-4">
-            <a href="/hangman" class="text-gray-50 text-lg m-4 hover:bg-yellow-400 hover:text-cyan-900 p-2 rounded-md transition-all duration-500">
-                New Game </a>
-            </div>
 
-    <div class=" py-4">
-        <a href="/" class="text-gray-50 text-lg m-4 hover:bg-yellow-400 hover:text-cyan-900 p-2 rounded-md transition-all duration-500">
-            << Go Home </a>
-        </div>
-</div>
 </body>
 
 </html>
