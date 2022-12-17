@@ -1,7 +1,9 @@
 # hangman-django
 
 
-## For this Repository, Instructions:
+<img src="./UI.png" />
+
+## Quick Run Instructions:
 
 ```
 python manage.py makemigrations  
