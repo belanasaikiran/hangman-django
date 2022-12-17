@@ -31,16 +31,19 @@ def get_chances(LatestGameWord):
     return chances
 
 
-def get_FillLetters(LatestGameWord, request):
+def get_FillLetters(LatestGameWord, request, alphabet):
     Fill_Letters = len(LatestGameWord) * "_"
     if request.method == 'GET':
         fillLetters = Game(fill_Letters=Fill_Letters)
         fillLetters.save()
         LatestFillWord = Game.objects.last().fill_Letters
         print(LatestFillWord)
-        return fillLetters
+        return LatestFillWord
     else:
-        print("YAY")
+        if alphabet:
+            LatestFillWord = Game.objects.last().fill_Letters
+            print("YAY")
+        return LatestFillWord
 
 #  ##### DJANGO ####
 def game(request):
@@ -58,8 +61,9 @@ def game(request):
         # check for no. of chances
         chances = get_chances(LatestGameWord)
         # Genrate empty blank spaces
-        Fill_Letters = get_FillLetters(LatestGameWord, request)
-        print(Fill_Letters)
+        alphabet = ""
+        Fill_Letters = get_FillLetters(LatestGameWord, request, alphabet)
+        # print(Fill_Letters)
         print("\nAvailable Letters: \n", alphabets)
         # render
         return render(request, 'Hangman.html', {'chancesLeft': chances, 'MissionWord': Fill_Letters})
@@ -70,13 +74,9 @@ def game(request):
         alphabet = request.POST['letter']
         print("alphabet pressed:", alphabet)
         LatestGameWord = Game.objects.last().game_word
-
-
-
-
         if alphabet in LatestGameWord:
             print("The Letter exists in word")
-            Fill_Letters = get_FillLetters(LatestGameWord, request)
+            Fill_Letters = get_FillLetters(LatestGameWord, request, alphabet)
         else:
             print("Sad")
 

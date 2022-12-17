@@ -1,6 +1,16 @@
 # hangman-django
 
 
+## For this Repository, Instructions:
+
+```
+python manage.py makemigrations  
+python manage.py migrate
+python manage.py runserver
+```
+
+
+
 ## Django App create:
 
 1. Create main app
