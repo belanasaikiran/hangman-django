@@ -15,6 +15,7 @@ words = ["Hangman", "Python", "Audacix", "Bottle", "Pen"]
 alphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
              'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
+guessedLetters = []
 
 def get_word():
     game_word = random.choice(words).upper()
@@ -86,7 +87,14 @@ def game(request):
         # # Fill_Letters = get_FillLetters(LatestGameWord, request, alphabet)
         # # print(Fill_Letters)
         # print("\nAvailable Letters: \n", alphabets)
-        return render(request, 'Hangman.html', {'chancesLeft': ChancesLeft, 'MissionWord': Fill_Letters, 'status': status})
+
+
+        # for i in range(97, 123):
+        #     print(chr(i).upper())
+        #     renderButtons('Alphabets.html', i)
+
+
+        return render(request, 'Hangman.html', {'chancesLeft': ChancesLeft, 'MissionWord': Fill_Letters, 'status': status, 'alphabet': 'A'})
 
     # game_word = game_word
     # print(game_word)
@@ -99,6 +107,9 @@ def game(request):
         ChancesLeft = Game.objects.last().chances
         # print("Chances Left:",  ChancesLeft)
         print("Chances Left:", ChancesLeft)
+        guessedLetters.append(alphabet);
+        print(guessedLetters)
+
 
         #  Filling Spaces
         LatestFillWord = Game.objects.last().fill_Letters
@@ -106,7 +117,7 @@ def game(request):
 
 
         if alphabet in LatestGameWord:
-            print("The Letter exists in word")
+            print(alphabet, " exists in word")
 
 
             if "_" in LatestFillWord:
@@ -137,15 +148,15 @@ def game(request):
                 ChancesLeft = ChancesLeft - 1
                 Game.objects.update(chances=ChancesLeft)
                 print("Chances Left:",  ChancesLeft)
-                status = "Wrong 😐 Try a different one "
+                status = "Wrong 😐 Try a different one"
 
 
-        if Game.objects.last().game_word == Game.objects.last().fill_Letters:
+        if Game.objects.last().game_word == Game.objects.last().fill_Letters:    
             print(Game.objects.last().game_word, Game.objects.last().fill_Letters)
             status = "Congrats, You Win! 🥳 🎉"
             print(status)
 
-        return render(request, 'Hangman.html', {'chancesLeft': ChancesLeft, 'MissionWord': LatestFillWord, 'status': status})
+        return render(request, 'Hangman.html', {'chancesLeft': ChancesLeft, 'MissionWord': LatestFillWord, 'status': status, 'GuessedLetters': guessedLetters})
 
 
 def index(request):
@@ -157,6 +168,15 @@ def index(request):
 #  When guessing for post requests
 def guess(request):
     return game(request)
+
+
+
+
+def renderButtons(alphabet, i):
+    html = '''<button class='bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full' type='submit' name='letter' value={{alphabet}} id='btn1' > {{alphabet}} </button>'''
+    print(html)
+    print(alphabet)
+    return alphabet, i
 
 
 # NOTES:

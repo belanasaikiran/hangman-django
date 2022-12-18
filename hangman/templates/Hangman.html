@@ -1,182 +1,363 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <title>HangMan - Django</title>
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- other plugins for tailwind css -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
     <script>
-        tailwind.config = {
-          theme: {
-               screens: {
-                sm: '480px',
-                md: '768px',
-                lg: '1000px',
-                xl: '1540px',
-                '2xl': '2000px',
-    },
-            extend: {
-              colors: {
-                clifford: '#da373d',
-              }
-            }
-          }
-        }
+      tailwind.config = {
+        theme: {
+          screens: {
+            sm: "480px",
+            md: "768px",
+            lg: "1000px",
+            xl: "1540px",
+            "2xl": "2000px",
+          },
+          extend: {
+            colors: {
+              clifford: "#da373d",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
 
-      </script>
-
-</head>
-
-<body class="text-center 2xl:px-40 px-32 m-0 bg-gray-800 bg-cover bgImage">
-
-    <h1 class="text-cyan-900 text-5xl font-bold text-center py-8 text-gray-50"> Welcome to <span
-            class=" bg-yellow-400 text-cyan-800 px-2 rounded-sm">Hang<span class="text-gray-50 ">man</span></span> Game
+  <body class="text-center 2xl:px-40 px-32 m-0 bg-gray-800 bg-cover bgImage">
+    <h1 class="text-cyan-900 text-5xl font-bold text-center py-8 text-gray-50">
+      Welcome to
+      <span class="bg-yellow-400 text-cyan-800 px-2 rounded-sm"
+        >Hang<span class="text-gray-50">man</span></span
+      >
+      Game
     </h1>
 
     {% comment %} new game , go home {% endcomment %}
     <div class="flex justify-center">
-        <div class=" py-4">
-            <a href="/" class="text-gray-50 text-lg m-4 hover:bg-yellow-400 hover:text-cyan-900 p-2 rounded-md transition-all duration-500 hover:font-semibold">
-                < Go Home </a>
-            </div> 
-            <div class=" py-4">
-            <a href="/hangman" class="text-gray-50 text-lg m-4 hover:bg-yellow-400 hover:text-cyan-900 p-2 rounded-md transition-all duration-500 hover:font-semibold">
-                New Game </a>
-            </div>
-
-
-</div>
+      <div class="py-4">
+        <a
+          href="/"
+          class="text-gray-50 text-lg m-4 hover:bg-yellow-400 hover:text-cyan-900 p-2 rounded-md transition-all duration-500 hover:font-semibold"
+        >
+          < Go Home
+        </a>
+      </div>
+      <div class="py-4">
+        <a
+          href="/hangman"
+          class="text-gray-50 text-lg m-4 hover:bg-yellow-400 hover:text-cyan-900 p-2 rounded-md transition-all duration-500 hover:font-semibold"
+        >
+          New Game
+        </a>
+      </div>
+    </div>
     <div
-        class=" grid  grid-cols-2 justify-center gap-4 justify-items-center   bg-gradient-to-r from-yellow-500/70 to-cyan-500/70 shadow-2xl rounded-xl px-4 py-8 backdrop-blur-lg min-h-[75vh] transition-all duration-500 ease-in-out">
-
-        <div class=" text-base text-left my-4 text-cyan-900  rounded-md p-4 flex flex-col">
-            <div class=" rounded-lg bg-gray-50 p-4">
-                <h3 class="font-semibold text-xl  2xl:text-3xl">How to play ?</h3>
-                <ul class="font-normal text-xl 2xl:text-2xl py-2">
-                    <li>1. Fill in the letter everywhere it appears on the appropriate dash (or dashes) each time you
-                        guess correctly.</li>
-                    <li>2. Guess one letter at a time to reveal the secret word. </li>
-                    <!-- <li>3. You </li> -->
-                </ul>
-            </div>
-
-            <div class="p-4 bg-gray-50 rounded-lg mt-2 h-full ">
-                <h1 class="text-cyan-800 font-semibold text-xl 2xl:text-3xl">Guessed Letters: </h1>
-                <p>{{guessLetters}}</p>
-            </div>
+      class="grid grid-cols-2 justify-center gap-4 justify-items-center bg-gradient-to-r from-yellow-500/70 to-cyan-500/70 shadow-2xl rounded-xl px-4 py-8 backdrop-blur-lg min-h-[75vh] transition-all duration-500 ease-in-out"
+    >
+      <div
+        class="text-base text-left my-4 text-cyan-900 rounded-md p-4 flex flex-col"
+      >
+        <div class="rounded-lg bg-gray-50 p-4">
+          <h3 class="font-semibold text-xl 2xl:text-3xl">How to play ?</h3>
+          <ul class="font-normal text-xl 2xl:text-2xl py-2">
+            <li>
+              1. Fill in the letter everywhere it appears on the appropriate
+              dash (or dashes) each time you guess correctly.
+            </li>
+            <li>2. Guess one letter at a time to reveal the secret word.</li>
+            <li>3. Use alphabet only once</li>
+            <!-- <li>3. You </li> -->
+          </ul>
         </div>
-        <div class="flex flex-col justify-items-center justify-around ">
 
-            <div>
-                <div class="text-5xl py-4 font-bold text-yellow-400 2xl:text-7xl">
-                <p class="my-4">Guess the word:</p>
-                    <span class="tracking-widest text-cyan-900 my-4 rounded-lg ml-2 px-4 ">{{MissionWord}}</span>
-            </div>
-
-                <p class="text-gray-50 text-2xl 2xl:text-4xl py-8">You have <span
-                        class="text-yellow-400 font-bold shadow-xl px-4">{{chancesLeft}}</span>
-                    remaining chances left</p>
-                <p class="my-2">{{status}}</p>
-
-            </div>
-
-            <form
-                class="flex flex-wrap items-strech  gap-4 justify-center  justify-items-center py-4 text-gray-50 text-3xl "
-                action="/hangman/guess" method="POST">
-                {% comment %} <input type="hidden" name="alphabet" value="{{ game.alphabet }}" /> {% endcomment %}
-                <button
-                    class="bg-cyan-800  p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
-                    type="submit" name="letter" value="A">A</button>
-                <button
-                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
-                    type="submit" name="letter" value="B">B</button>
-                <button
-                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
-                    type="submit" name="letter" value="C">C</button>
-                <button
-                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
-                    type="submit" name="letter" value="D">D</button>
-                <button
-                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
-                    type="submit" name="letter" value="E">E</button>
-                <button
-                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
-                    type="submit" name="letter" value="F">F</button>
-                <button
-                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
-                    type="submit" name="letter" value="G">G</button>
-                <button
-                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
-                    type="submit" name="letter" value="H">H</button>
-                <button
-                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
-                    type="submit" name="letter" value="I">I</button>
-                <button
-                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
-                    type="submit" name="letter" value="J">J</button>
-                <button
-                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
-                    type="submit" name="letter" value="K">K</button>
-                <button
-                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
-                    type="submit" name="letter" value="L">L</button>
-                <button
-                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
-                    type="submit" name="letter" value="M">M</button>
-                <button
-                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
-                    type="submit" name="letter" value="N">N</button>
-                <button
-                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
-                    type="submit" name="letter" value="O">O</button>
-                <button
-                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
-                    type="submit" name="letter" value="P">P</button>
-                <button
-                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
-                    type="submit" name="letter" value="Q">Q</button>
-                <button
-                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
-                    type="submit" name="letter" value="R">R</button>
-                <button
-                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
-                    type="submit" name="letter" value="S">S</button>
-                <button
-                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
-                    type="submit" name="letter" value="T">T</button>
-                <button
-                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
-                    type="submit" name="letter" value="U">U</button>
-                <button
-                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
-                    type="submit" name="letter" value="V">V</button>
-                <button
-                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
-                    type="submit" name="letter" value="W">W</button>
-                <button
-                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
-                    type="submit" name="letter" value="X">X</button>
-                <button
-                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
-                    type="submit" name="letter" value="Y">Y</button>
-                <button
-                    class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
-                    type="submit" name="letter" value="Z">Z</button>
-
-
-
-                <!--  Since, the route is internal, we need to specify csrf_token which is handled by middleware -->
-                {% csrf_token %}
-
-            </form>
+        <div class="p-4 bg-gray-50 rounded-lg mt-2 h-full">
+          <h1 class="text-cyan-800 font-semibold text-xl 2xl:text-3xl">
+            Guessed Letters:
+          </h1>
+          <p>{{GuessedLetters}}</p>
         </div>
+      </div>
+      <div class="flex flex-col justify-items-center justify-around">
+        <div>
+          <div class="text-5xl py-4 font-bold text-yellow-400 2xl:text-7xl">
+            <p class="my-4">Guess the word:</p>
+            <span
+              class="tracking-widest text-cyan-900 my-4 rounded-lg ml-2 px-4"
+              >{{MissionWord}}</span
+            >
+          </div>
+
+          <p class="text-gray-50 text-2xl 2xl:text-4xl py-8">
+            You have
+            <span class="text-yellow-400 font-bold shadow-xl px-4"
+              >{{chancesLeft}}</span
+            >
+            remaining chances left
+          </p>
+          <p class="my-2">{{status}}</p>
+        </div>
+
+        <form
+          class="flex flex-wrap items-strech gap-4 justify-center justify-items-center py-4 text-gray-50 text-3xl"
+          action="/hangman/guess"
+          method="POST"
+        >
+          {% comment %}
+          <input type="hidden" name="alphabet" value="{{ game.alphabet }}" /> {%
+          endcomment %} {% comment %} Render All Buttons {% endcomment %}
+          {% comment %} {{buttons}} {% endcomment %}
+          {% comment %} {% include "./Alphabets.html" %} {% endcomment %}
+
+        <button
+            class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+            type="submit"
+            name="letter"
+            value="A"
+            id="btn1"
+            onclick="this.hidden=true"
+          >
+            A
+          </button>
+          <button
+            class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+            type="submit"
+            name="letter"
+            value="B"
+            id="btn2"
+          >
+            B
+          </button>
+          <button
+            class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+            type="submit"
+            name="letter"
+            value="C"
+            id="btn3"
+          >
+            C
+          </button>
+          <button
+            class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+            type="submit"
+            name="letter"
+            value="D"
+            id="btn4"
+          >
+            D
+          </button>
+          <button
+            class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+            type="submit"
+            name="letter"
+            value="E"
+            id="btn5"
+          >
+            E
+          </button>
+          <button
+            class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+            type="submit"
+            name="letter"
+            value="F"
+            id="btn6"
+          >
+            F
+          </button>
+          <button
+            class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+            type="submit"
+            name="letter"
+            value="G"
+            id="btn7"
+          >
+            G
+          </button>
+          <button
+            class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+            type="submit"
+            name="letter"
+            value="H"
+            id="btn8"
+          >
+            H
+          </button>
+          <button
+            class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+            type="submit"
+            name="letter"
+            value="I"
+            id="btn9"
+          >
+            I
+          </button>
+          <button
+            class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+            type="submit"
+            name="letter"
+            value="J"
+            id="btn10"
+          >
+            J
+          </button>
+          <button
+            class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+            type="submit"
+            name="letter"
+            value="K"
+            id="btn11"
+          >
+            K
+          </button>
+          <button
+            class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+            type="submit"
+            name="letter"
+            value="L"
+            id="btn12"
+          >
+            L
+          </button>
+          <button
+            class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+            type="submit"
+            name="letter"
+            value="M"
+            id="btn13"
+          >
+            M
+          </button>
+          <button
+            class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+            type="submit"
+            name="letter"
+            value="N"
+            id="btn14"
+          >
+            N
+          </button>
+          <button
+            class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+            type="submit"
+            name="letter"
+            value="O"
+            id="btn15"
+          >
+            O
+          </button>
+          <button
+            class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+            type="submit"
+            name="letter"
+            value="P"
+            id="btn16"
+          >
+            P
+          </button>
+          <button
+            class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+            type="submit"
+            name="letter"
+            value="Q"
+            id="btn17"
+          >
+            Q
+          </button>
+          <button
+            class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+            type="submit"
+            name="letter"
+            value="R"
+            id="btn18"
+          >
+            R
+          </button>
+          <button
+            class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+            type="submit"
+            name="letter"
+            value="S"
+            id="btn19"
+          >
+            S
+          </button>
+          <button
+            class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+            type="submit"
+            name="letter"
+            value="T"
+            id="btn20"
+          >
+            T
+          </button>
+          <button
+            class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+            type="submit"
+            name="letter"
+            value="U"
+            id="btn21"
+          >
+            U
+          </button>
+          <button
+            class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+            type="submit"
+            name="letter"
+            value="V"
+            id="btn22"
+          >
+            V
+          </button>
+          <button
+            class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+            type="submit"
+            name="letter"
+            value="W"
+            id="btn23"
+          >
+            W
+          </button>
+          <button
+            class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+            type="submit"
+            name="letter"
+            value="X"
+            id="btn24"
+          >
+            X
+          </button>
+          <button
+            class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+            type="submit"
+            name="letter"
+            value="Y"
+            id="btn25"
+          >
+            Y
+          </button>
+          <button
+            class="bg-cyan-800 p-2 2xl:w-24 2xl:h-24 w-16 h-16 hover:bg-yellow-400 hover:text-cyan-900 transition-all duration-500 rounded-sm hover:scale-125 hover:rounded-full"
+            type="submit"
+            name="letter"
+            value="Z"
+            id="btn26"
+          >
+            Z
+          </button>
+          <!--  Since, the route is internal, we need to specify csrf_token which is handled by middleware -->
+          {% csrf_token %}
+        </form>
+      </div>
     </div>
-    </div>
 
-
-
-</body>
-
+    <script>
+      for (let i = 0; i < 10; i++) {
+        button_id = "btn" + i;
+        console.log(button_id);
+        document.querySelector(`${button_id}`).classList.add("hidden");
+      }
+    </script>
+  </body>
 </html>

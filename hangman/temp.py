@@ -74,8 +74,6 @@ def game(request):
         ChancesLeft = Game.objects.last().chances
         print("Chances Left:",  ChancesLeft)
 
-
-
         # Generate empty blank spaces
         alphabet = ""
         Fill_Letters = get_FillLetters(LatestGameWord, request, alphabet)
