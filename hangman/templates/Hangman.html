@@ -110,11 +110,14 @@
           endcomment %} {% comment %} Render All Buttons {% endcomment %} {%comment %} {{buttons}} {% endcomment %} 
           {% if AllAlphabets == True %}
           {% include "./Alphabets.html" %} {% else %}
+
+
           <p>
             <div class="py-4">
+            <p class="py-4">The Word is {{RevealWord}}</p>
               <a
                 href="/hangman"
-                class="text-lg m-4 bg-yellow-400 hover:bg-cyan-800 text-cyan-800 hover:text-gray-50 p-2 rounded-md transition-all duration-500 hover:font-semibold"
+                class="text-lg m-4  bg-yellow-400 hover:bg-cyan-800 text-cyan-800 hover:text-gray-50 p-2 rounded-md transition-all duration-500 hover:font-semibold"
               >
                 New Game
               </a>

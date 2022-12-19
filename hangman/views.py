@@ -18,6 +18,8 @@ alphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
 
 guessedLetters = []
 
+
+
 def get_word():
     game_word = random.choice(words).upper()
     return game_word
@@ -114,11 +116,14 @@ def game(request):
         ChancesLeft = Game.objects.last().chances
         # print("Chances Left:",  ChancesLeft)
         print("Chances Left:", ChancesLeft)
+        GuessesList = ''
+        RevealWord = ''
 
 
         #  add guess letters
         if alphabet in guessedLetters:
             print("Already Guessed")
+            GuessesList =GuessesList
         else:
             guessedLetters.append(alphabet);
             print(guessedLetters)
@@ -166,12 +171,13 @@ def game(request):
             ChancesLeft = Game.objects.last().chances
 
             # verify chances
-            if ChancesLeft == 0:
+            if ChancesLeft < 2:
                 ChancesLeft = 0
                 Game.objects.update(chances=ChancesLeft)
                 print("Chances Left:",  ChancesLeft)
                 status = 'You have Lost the Game,  Click *New Game* to play again'
                 AllAlphabets = False
+                RevealWord = LatestGameWord
 
 
             else:
@@ -180,6 +186,8 @@ def game(request):
                 print("Chances Left:",  ChancesLeft)
                 status = "Wrong 😐 Try a different one"
                 AllAlphabets = True
+                RevealWord = ''
+
 
 
 
@@ -187,10 +195,10 @@ def game(request):
             print(Game.objects.last().game_word, Game.objects.last().fill_Letters)
             status = "Congrats, You Win! 🥳 🎉"
             AllAlphabets = False
-
+            RevealWord = LatestGameWord
             print(status)
 
-        return render(request, 'Hangman.html', {'chancesLeft': ChancesLeft, 'MissionWord': LatestFillWord, 'status': status, 'GuessedLetters': GuessesList, 'AllAlphabets': AllAlphabets})
+        return render(request, 'Hangman.html', {'chancesLeft': ChancesLeft, 'MissionWord': LatestFillWord, 'status': status, 'GuessedLetters': GuessesList, 'AllAlphabets': AllAlphabets, 'RevealWord': RevealWord})
 
 
 def index(request):
