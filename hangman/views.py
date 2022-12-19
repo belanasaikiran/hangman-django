@@ -126,11 +126,22 @@ def game(request):
             print("len", latestGuesses)
             guesses = Game.objects.update(guessedLetters=guessedLetters)
             print("From DB:", guesses)
+            # guessedLetters = str(guessedLetters)[1:-1]
+            print(str(guessedLetters)[1:-1])
+            x=str(guessedLetters)
+            x=x.replace("[","")
+            x=x.replace("]","")
+            x=x.replace("'","")
+            GuessesList = x
+            
+
+
 
 
         #  Filling Spaces
         LatestFillWord = Game.objects.last().fill_Letters
-        print(LatestFillWord)
+        print("Used Words", LatestFillWord)
+  
 
 
         if alphabet in LatestGameWord:
@@ -146,8 +157,6 @@ def game(request):
                         Game.objects.update(fill_Letters=LatestFillWord)
                         status = "That's great!, Now try the remaining ones"
                         AllAlphabets = True
-
-
 
                 Fill_Letters = get_FillLetters(LatestGameWord, request, alphabet)
         else:
@@ -181,7 +190,7 @@ def game(request):
 
             print(status)
 
-        return render(request, 'Hangman.html', {'chancesLeft': ChancesLeft, 'MissionWord': LatestFillWord, 'status': status, 'GuessedLetters': guessedLetters, 'AllAlphabets': AllAlphabets})
+        return render(request, 'Hangman.html', {'chancesLeft': ChancesLeft, 'MissionWord': LatestFillWord, 'status': status, 'GuessedLetters': GuessesList, 'AllAlphabets': AllAlphabets})
 
 
 def index(request):
