@@ -6,6 +6,7 @@ from django.http import HttpResponse, JsonResponse
 
 # import model game
 from hangman.models import Game
+import os
 
 
 ####### PYTHON ######
@@ -61,6 +62,8 @@ def game(request):
         # Game Status
         status = "Game in progress"
 
+        # clear guessLetters
+        guessedLetters.clear()
         # get random word
         word = get_word()
         print("Word is", word)
@@ -80,6 +83,10 @@ def game(request):
 
         ChancesLeft = Game.objects.last().chances
         print("Chances Left:",  ChancesLeft)
+
+
+        AllAlphabets = True
+
         ######
 
         # Generate empty blank spaces
@@ -94,7 +101,7 @@ def game(request):
         #     renderButtons('Alphabets.html', i)
 
 
-        return render(request, 'Hangman.html', {'chancesLeft': ChancesLeft, 'MissionWord': Fill_Letters, 'status': status, 'alphabet': 'A'})
+        return render(request, 'Hangman.html', {'chancesLeft': ChancesLeft, 'MissionWord': Fill_Letters, 'status': status, 'alphabet': 'A', 'AllAlphabets': AllAlphabets})
 
     # game_word = game_word
     # print(game_word)
@@ -107,8 +114,18 @@ def game(request):
         ChancesLeft = Game.objects.last().chances
         # print("Chances Left:",  ChancesLeft)
         print("Chances Left:", ChancesLeft)
-        guessedLetters.append(alphabet);
-        print(guessedLetters)
+
+
+        #  add guess letters
+        if alphabet in guessedLetters:
+            print("Already Guessed")
+        else:
+            guessedLetters.append(alphabet);
+            print(guessedLetters)
+            latestGuesses = len(guessedLetters)
+            print("len", latestGuesses)
+            guesses = Game.objects.update(guessedLetters=guessedLetters)
+            print("From DB:", guesses)
 
 
         #  Filling Spaces
@@ -118,8 +135,7 @@ def game(request):
 
         if alphabet in LatestGameWord:
             print(alphabet, " exists in word")
-
-
+            #  check for remaining spaces
             if "_" in LatestFillWord:
                 for i in range(len(LatestGameWord)):
                     if (alphabet == LatestGameWord[i]):
@@ -129,6 +145,9 @@ def game(request):
                         # print(LatestFillWord)
                         Game.objects.update(fill_Letters=LatestFillWord)
                         status = "That's great!, Now try the remaining ones"
+                        AllAlphabets = True
+
+
 
                 Fill_Letters = get_FillLetters(LatestGameWord, request, alphabet)
         else:
@@ -143,20 +162,26 @@ def game(request):
                 Game.objects.update(chances=ChancesLeft)
                 print("Chances Left:",  ChancesLeft)
                 status = 'You have Lost the Game,  Click *New Game* to play again'
+                AllAlphabets = False
+
 
             else:
                 ChancesLeft = ChancesLeft - 1
                 Game.objects.update(chances=ChancesLeft)
                 print("Chances Left:",  ChancesLeft)
                 status = "Wrong 😐 Try a different one"
+                AllAlphabets = True
+
 
 
         if Game.objects.last().game_word == Game.objects.last().fill_Letters:    
             print(Game.objects.last().game_word, Game.objects.last().fill_Letters)
             status = "Congrats, You Win! 🥳 🎉"
+            AllAlphabets = False
+
             print(status)
 
-        return render(request, 'Hangman.html', {'chancesLeft': ChancesLeft, 'MissionWord': LatestFillWord, 'status': status, 'GuessedLetters': guessedLetters})
+        return render(request, 'Hangman.html', {'chancesLeft': ChancesLeft, 'MissionWord': LatestFillWord, 'status': status, 'GuessedLetters': guessedLetters, 'AllAlphabets': AllAlphabets})
 
 
 def index(request):

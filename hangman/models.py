@@ -6,6 +6,6 @@ class Game(models.Model):
     game_word = models.CharField(max_length=20)
     game_word_len = models.CharField(max_length=20, default="")
     status = models.CharField(max_length=10, default="In Progress")
-    guessedLetters = models.CharField(max_length=20, default="")
+    guessedLetters = models.CharField(max_length=30, default="")
     fill_Letters = models.CharField(max_length=20, default="")
     chances = models.IntegerField(blank=True, null=True)
