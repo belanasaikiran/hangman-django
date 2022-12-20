@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hangan - Python</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- other plugins for tailwind css -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          screens: {
+            sm: "480px",
+            md: "768px",
+            lg: "1000px",
+            xl: "1540px",
+            "2xl": "2000px",
+          },
+          extend: {
+            colors: {
+              clifford: "#da373d",
+            },
+          },
+        },
+      };
+    </script>
+
+
+    {% comment %} using highlight.js {% endcomment %}
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+  </head>
+  <body class="  px-10 m-0 bg-gray-800 bg-cover bgImage">
+    <h1 class="text-cyan-900 md:text-4xl font-bold text-center py-8 text-gray-50">
+      Python Code for
+      <span class="bg-yellow-400 text-cyan-800 px-2 rounded-sm"
+        >Hang<span class="text-gray-50">man</span></span
+      >
+    </h1>
+
+    <div class="flex justify-center">
+      <div class="py-4">
+        <a
+          href="/"
+          class="text-gray-50 text-lg m-4 hover:bg-yellow-400 hover:text-cyan-900 p-2 rounded-md transition-all duration-500 hover:font-semibold"
+        >
+          < Go Home
+        </a>
+      </div>
+      <div class="py-4">
+        <a
+          href="/hangman"
+          class="text-gray-50 text-lg m-4 hover:bg-yellow-400 hover:text-cyan-900 p-2 rounded-md transition-all duration-500 hover:font-semibold"
+        >
+          Play HangMan
+        </a>
+      </div>
+    </div>
+    <br />
+    <div
+      class=" justify-items-center  shadow-2xl rounded-xl px-4 py-2 backdrop-blur-lg min-h-[75vh] transition-all duration-500 ease-in-out"
+    >
+
+    <pre class="">
+        <code class="python">
+            import random
+            words = ["Hangman", "Python", "Audacix", "Bottle", "Pen"]
+            
+            alphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
+                         'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+            guessedLetters = []
+            game_word = random.choice(words).upper()
+            game_word_len = len(game_word)
+            
+            
+            def init():
+                print("Welcome to Hangman! 🕴")
+                # print(game_word)
+            
+            
+            def __main__():
+                init()
+            
+                # print(game_word_len)
+                print("Your Mission is to find the word for", game_word_len, "letters\n")
+                Fill_Letters = game_word_len * "_"
+                print(Fill_Letters)
+                print("\nAvailable Letters: \n", alphabets)
+            
+                # The player should be allowed to guess incorrectly 1/2 the number of characters in the word.
+                chances = game_word_len//2  # floor division
+            
+                while True:
+            
+                    if (game_word_len < 5):
+                        chances = 3
+                        print("\nYou have", chances, "remaining chances left")
+                    else:
+                        print("\nYou have", chances, "remaining chances left")
+            
+                    if chances == 0:
+                        print("Sorry 🥺, You ran out of chances")
+                        print("The Word was", game_word)
+                        break
+            
+                    if "_" in Fill_Letters:
+                        while True:
+                            option = input("Guess a letter: ").upper()
+            
+                            if (len(option) == 1) and (option in alphabets):
+                                # print(option)
+                                guessedLetters.append(option)
+                                print("Guessed Letters: ", guessedLetters)
+                                alphabets.remove(option)
+                                print(alphabets)
+                                break
+                            else:
+                                print("Please choose a letter from the available alphabets")
+                                print(alphabets)
+                                continue
+            
+                        if option in game_word:
+                            print("That's great," + option + " exists\n")
+                        else:
+                            print("Wrong 😐 ,", option, "doesn't exist in word. \n Try a different one \n")
+                            chances = chances - 1
+            
+            
+                        for i in range(game_word_len):
+                            if (option == game_word[i]):
+                                Fill_list = list(Fill_Letters)
+                                Fill_list[i] = option
+                                Fill_Letters = ''.join(Fill_list)
+                                # print(Fill_Letters)
+            
+                        print("\n", Fill_Letters)
+            
+                        continue
+                    else:
+                        print("You Win! 🥳 🎉")
+                        break
+            
+            
+            # Execute main function
+            __main__()
+            
+        
+        </code>
+    </pre>
+
+
+    </div>
+
+
+  </body>
+</html>

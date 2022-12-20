@@ -211,7 +211,8 @@ def index(request):
 def guess(request):
     return game(request)
 
-
+def code(request):
+    return render(request, 'PythonCode.html')
 
 
 def renderButtons(alphabet, i):
